@@ -1,87 +1,71 @@
 package app;
 
-
+import app.classes.*;
 import def.adventureland.*;
 import static def.adventureland.Globals.*;
 
-//based on https://github.com/kaansoral/adventureland/blob/master/examples/simple_but_improved.js
+
 public class Main {
+    static UClass characterClass;
+
     public static void loop() {
-        if(character.hp<400 || character.mp<300) {
-            set_message("Drinking Potion");
-            use_hp_or_mp();
-        }
-        // Uses potions only when the above conditions are met
-        loot();
-
-        if(character.moving) {
-            set_message("Moving");
-            return;
-        }
-
-        Entity target=get_targeted_monster();
-        if(target == null)
-        {
-            def.js.Object args = new def.js.Object();// args={};
-            args.$set("min_xp",100);
-            args.$set("max_att",120);
-            args.$set("path_check",true);
-            args.$set("no_target",true);
-            target=get_nearest_monster(args);
-            // Ensures that your character can walk to the target (path_check) and the target isn't engaging with anyone else (no_target)
-            if(target != null) {
-                set_message("Changing Target");
-                change_target(target);
-            }
-            else
-            {
-                set_message("No Monsters");
-                return;
+        if(characterClass == null){
+            switch(character.ctype){
+                case "warrior":
+                    characterClass = new Warrior();
+                    break;
+                case "mage":
+                    characterClass = new Mage();
+                    break;
+                case "merchant":
+                    characterClass = new Merchant();
+                    break;
+                case "rogue":
+                    characterClass = new Rogue();
+                    break;
+                case "ranger":
+                    characterClass = new Ranger();
+                    break;
+                case "paladin":
+                    characterClass = new Paladin();
+                    break;
+                case "priest":
+                    characterClass = new Priest();
+                    break;
+                default:
+                    characterClass = new Unknown();
+                    break;
             }
         }
-
-        if(!in_attack_range(target) && character!=null)
-        {
-            set_message("Moving to target");
-            move(
-                    character.real_x+(target.real_x-character.real_x)/2,
-                    character.real_y+(target.real_y-character.real_y)/2
-            );
-            // Walk half the distance
-        }
-        else if(can_attack(target))
-        {
-            set_message("Attacking");
-            attack(target);
-        }
+        characterClass.loop();
     }
     public static void handle_command(String command,Object args){
-
+        characterClass.handle_command(command,args);
     }
     public static void handle_death(){
-        respawn();
+        characterClass.handle_death();
     }
 
     public static void on_combined_damage(){
-
+        characterClass.on_combined_damage();
     }
     public static void on_destroy(){
-
+        characterClass.on_destroy();
     }
     public static void on_disappear(Entity entity, def.js.Object data){
-
+        characterClass.on_disappear(entity, data);
     }
     public static void on_draw(){
-
+        characterClass.on_draw();
     }
     public static void on_game_event(Event event){
-
+        characterClass.on_game_event(event);
     }
     public static void on_party_invite(String name){
-
+        characterClass.on_party_invite(name);
     }
     public static void on_party_request(String name){
-
+        characterClass.on_party_request(name);
     }
 
 }
