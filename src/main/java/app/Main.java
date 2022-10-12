@@ -3,6 +3,8 @@ package app;
 
 import def.adventureland.*;
 import static def.adventureland.Globals.*;
+
+//based on https://github.com/kaansoral/adventureland/blob/master/examples/simple_but_improved.js
 public class Main {
     public static void loop() {
         if(character.hp<400 || character.mp<300) {
