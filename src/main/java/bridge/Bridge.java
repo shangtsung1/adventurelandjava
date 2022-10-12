@@ -1,11 +1,6 @@
-package quickstart;
+package bridge;
 
 import app.Main;
-import def.adventureland.Entity;
-import def.adventureland.Event;
-
-import java.util.function.Consumer;
-import java.util.function.BiConsumer;
 
 import static def.dom.Globals.*;
 import static jsweet.util.Lang.*;
